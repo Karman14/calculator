@@ -1,0 +1,103 @@
+<html>
+<head>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 200vh;
+      font-family: Arial, sans-serif;
+    }
+    .calculator {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-gap: 15px;
+      background-color: black;
+      padding: 25px;
+      border-radius: 10px;
+    }
+    .calculator input[type="number"], .calculator button {
+      border: none;
+      font-size: 20px;
+      padding: 15px;
+      border-radius: 5px;
+    }
+    .calculator input[type="number"] {
+      grid-column: 1 / 5;
+      margin-bottom: 10px;
+    }
+    .calculator button {
+      background-color: white;
+      cursor: pointer;
+    }
+    .calculator button:hover {
+      background-color: black;
+    }
+    .calculator button:active {
+      background-color:white;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <input type="number" id="value" readonly />
+    <button onclick="clearDisplay()">C</button>
+    <button onclick="appendNumber(7)">7</button>
+    <button onclick="appendNumber(8)">8</button>
+    <button onclick="appendNumber(9)">9</button>
+    <button onclick="setOperator('+')">+</button>
+    <button onclick="appendNumber(4)">4</button>
+    <button onclick="appendNumber(5)">5</button>
+    <button onclick="appendNumber(6)">6</button>
+    <button onclick="setOperator('-')">-</button>
+    <button onclick="appendNumber(1)">1</button>
+    <button onclick="appendNumber(2)">2</button>
+    <button onclick="appendNumber(3)">3</button>
+    <button onclick="setOperator('*')">*</button>
+    <button onclick="appendNumber(0)">0</button>
+    <button onclick="calculateResult()">=</button>
+    <button onclick="setOperator('/')">/</button>
+  </div>
+
+  <script>
+    let operand1 = null;
+    let operand2 = null;
+    let operator = null;
+    let currentValue = '';
+
+    function appendNumber(number) {
+      currentValue += number;
+      document.getElementById('value').value = currentValue;
+    }
+
+    function setOperator(op) {
+      if (operator || currentValue === '') return;
+      operator = op;
+      operand1 = parseFloat(currentValue);
+      currentValue = '';
+    }
+
+    function calculateResult() {
+      if (operator === null || currentValue === '') return;
+      operand2 = parseFloat(currentValue);
+      let result = eval(operand1 + ' ' + operator + ' ' + operand2);
+      currentValue = result;
+      document.getElementById('value').value = result;
+      operator = null;
+      operand1 = null;
+      operand2 = null;
+    }
+
+    function clearDisplay() {
+      currentValue = '';
+      operator = null;
+      operand1 = null;
+      operand2 = null;
+      document.getElementById('value').value = '';
+    }
+  </script>
+</body>
+</html>
